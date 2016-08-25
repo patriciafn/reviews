@@ -44,12 +44,15 @@ public class REST{
 	            
 	            
 	            try {
-	            	Usuario student = model.login(request.params(":username"), request.params(":password"));
+	            	Student student = model.login(request.params(":username"), request.params(":password"));
 	            	
 	            	if(student != null){
 	            		
 	            		JSONArray jsonResult = new JSONArray();
 		         	    JSONObject jsonObj = new JSONObject();
+
+		        		jsonObj.put("email", student.getUserName());
+		        		
 		        		
 		             	jsonResult.put(jsonObj);
 		             	
@@ -73,7 +76,7 @@ public class REST{
 	            JSONArray jsonResult = new JSONArray();
          	    JSONObject jsonObj = new JSONObject();
 
-        		jsonObj.put("ra", 0);
+        		jsonObj.put("email", "");
         		
         		
              	jsonResult.put(jsonObj);
@@ -89,72 +92,4 @@ public class REST{
 	}
 	
 	
-	public void loginADM(){
-		
-		post("/login/adm", new Route() {
-			@Override
-            public Object handle(final Request request, final Response response){
-	        	
-	           response.header("Access-Control-Allow-Origin", "*");
-
-	        	
-	        	
-	        	
-	           JSONObject json = new JSONObject(request.body());
-	        	
-	           String userName = json.getString("userName");
-	           
-	           String password = json.getString("password");
-	           	
-	           
-         	    
-	           try {
-	        	   ADM adm = model.loginADM(userName, password);
-	            	
-	            	if(adm != null){
-	            		
-	            		JSONArray jsonResult = new JSONArray();
-		         	    JSONObject jsonObj = new JSONObject();
-
-		        		jsonObj.put("status", 1);
-		        		jsonObj.put("userName", adm.getUserName());
-		        		
-		        		
-		             	jsonResult.put(jsonObj);
-		             	
-		             	return jsonResult;
-	            		
-	            	} else {
-	            		
-	            		
-	            		
-	            	}
-	            	
-	            	
-	             	
-	        		} catch (JSONException e) {
-	        				
-	        			//e.printStackTrace();
-
-	        		}
-	         	    	
-	
-	            JSONArray jsonResult = new JSONArray();
-        	    JSONObject jsonObj = new JSONObject();
-
-        	    jsonObj.put("status", 0);
-       		
-       		
-            	jsonResult.put(jsonObj);
-            	
-            	return jsonResult;
-         	   
-         	   
-	        	
-		   }
-		});     
-
-         
-	}
-		
 }
